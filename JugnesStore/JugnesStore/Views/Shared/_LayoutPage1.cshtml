@@ -1,0 +1,50 @@
+﻿@using JugnesStore.Models
+<!DOCTYPE html>
+@{
+    JugnesModel db = new JugnesModel();
+    List<UserCart> cartList = new List<UserCart>();
+    if (Session["user"] != null)
+    {
+        User u = Session["user"] as User;
+        int id = u.ID;
+        cartList = db.UserCarts.Where(x => x.User_ID == id).ToList();
+    }
+
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+</head>
+<body>
+    <header class="d-flex flex-wrap justify-content-center bg-dark py-3 mb-2 border-bottom">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <svg class="bi me-1" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+            <span class="fs-4">Jugnes Oyuncuların Adresi</span>
+        </a>
+        <ul class="nav nav-pills me-3">
+            <li class="nav-item"><a href="@Url.Action("Index","Home")" class="nav-link active me-2" aria-current="page">Ana Sayfa  <i class="bi bi-house-door-fill"></i></a></li>
+            @if (Session["user"] == null)
+            {
+                
+                    <a href="@Url.Action("Login","User")" type="button" class="btn btn-outline-primary me-2">Giriş Yap <i class="bi bi-person-circle"></i></a>
+                    <a href="@Url.Action("Login","User")" type="button" class="btn btn-outline-primary  ">Üye Ol <i class="bi bi-person-plus"></i></a>
+
+               
+            }
+            else
+            {
+                
+                    <a href="@Url.Action("Index","UserCart")" type="button" class="btn btn-outline-primary me-2">Sepetim <i class="bi bi-cart4"></i> (@cartList.Count)</a>
+                    <a href="@Url.Action("Login","User")" type="button" class="btn btn-outline-primary">Çıkış Yap</a>
+                
+            }
+        </ul>
+    </header>
+    <div>
+        @RenderBody()
+    </div>
+    </body>
+    </html>

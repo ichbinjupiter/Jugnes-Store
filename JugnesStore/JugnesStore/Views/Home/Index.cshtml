@@ -1,0 +1,81 @@
+﻿
+@model IEnumerable<JugnesStore.Models.Product>
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<main>
+
+    <section class="py-0 text-center container">
+        <div class="row py-lg-1">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">Gamnes Satış</h1>
+                <p>
+                    <a href="#" class="btn btn-secondary my-2">Valorant</a>
+                    <a href="#" class="btn btn-secondary my-2">Minecraft</a>
+                    <a href="#" class="btn btn-secondary my-2">CsGo</a>
+                    <a href="#" class="btn btn-secondary my-2">Wolfteam</a>
+                    <a href="#" class="btn btn-secondary my-2">Metin2</a>
+                    <a href="#" class="btn btn-secondary my-2">PUBG</a>
+                    <a href="#" class="btn btn-secondary my-2">Steam</a>
+                    <a href="#" class="btn btn-secondary my-2">Rust</a>
+                </p>
+                <p class="lead text-muted">Bizi Tercih Ettiğiniz İçin Teşekkür Ederiz 😊</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+                @foreach (var item in Model)
+                {
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <a href="@Url.Action("Detail","Product", new { id= item.ID})" class="link-secondary" style="text-decoration:none">
+                                <img src="~/ProductImages/@item.ImagePath" height="300" class="card-img" />
+                                <div class="card-body bg-light">
+                                    <span><b>@item.Name</b></span>
+                                    <br />
+                                    <label style="float: right">
+                                        <span><b>@item.Price ₺</b></span>
+                                    </label>
+                                    @if (item.Description.Length >= 100)
+                                    {
+                                        <p>@item.Description.Substring(0, 100)</p>
+                                    }
+                                    else
+                                    {
+                                        <p>@item.Description</p>
+                                    }
+
+                                    @if (Session["user"] == null)
+                                    {
+                                        <div class="container-border p-4 text-end">
+                                            <a href="@Url.Action("BuyProducts","UserCart", new { id = item.ID})" type="button" class="btn btn-warning">Satın Al  <i class="bi bi-wallet2"></i></a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="container-border p-4">
+                                            <a href="@Url.Action("Add","UserCart", new { id = item.ID})" type="button" class="btn btn-warning">Sepete Ekle<i class="bi bi-cart4"></i></a>
+                                            <a href="@Url.Action("BuyProducts","UserCart", new { id = item.ID})" type="button" class="btn btn-warning">Satın Al  <i class="bi bi-wallet2"></i></a>
+                                        </div>
+                                    }
+
+                                </div>
+                        </div>
+                    </div>
+
+                }
+
+            </div>
+        </div>
+    </div>
+</main>
+
+
+
+
+
